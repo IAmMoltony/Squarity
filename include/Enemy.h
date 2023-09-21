@@ -26,6 +26,7 @@ public:
     virtual int GetHeight(void) const = 0;
     virtual Type GetType(void) const = 0;
     virtual SDL_Rect GetRect(void) const = 0;
+    virtual SDL_Color GetColor(void) const = 0;
 
 protected:
     int x, y, velX, velY;

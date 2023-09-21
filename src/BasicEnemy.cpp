@@ -19,7 +19,8 @@ void BasicEnemy::Draw(SDL_Renderer *rend)
     SDL_Rect rect = GetRect();
 
     // set color
-    SDL_SetRenderDrawColor(rend, 255, 0, 0, 255);
+    SDL_Color color = GetColor();
+    SDL_SetRenderDrawColor(rend, color.r, color.g, color.b, color.a);
 
     // render player
     SDL_RenderFillRect(rend, &rect);
@@ -48,7 +49,8 @@ void BasicEnemy::checkBounds(void)
 
 void BasicEnemy::updateTrail(Trail::List &trails)
 {
-    trails.push_back(new Trail(x, y, GetWidth(), GetHeight(), 255, 0, 0));
+    SDL_Color color = GetColor();
+    trails.push_back(new Trail(x, y, GetWidth(), GetHeight(), color.r, color.g, color.b));
 }
 
 int BasicEnemy::GetWidth(void) const
@@ -74,4 +76,14 @@ SDL_Rect BasicEnemy::GetRect(void) const
     rect.w = GetWidth();
     rect.h = GetHeight();
     return rect;
+}
+
+SDL_Color BasicEnemy::GetColor(void) const
+{
+    SDL_Color color;
+    color.r = 255;
+    color.g = 0;
+    color.b = 0;
+    color.a = 255;
+    return color;
 }

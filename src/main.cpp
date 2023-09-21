@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "BasicEnemy.h"
+#include "FastEnemy.h"
 #include "HUD.h"
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
@@ -68,6 +69,7 @@ int main(int argc, char **argv)
     // enemies
     Enemy::List enemies;
     enemies.push_back(new BasicEnemy(10, 10));
+    enemies.push_back(new FastEnemy(100, 100));
 
     // trails
     Trail::List trails;
