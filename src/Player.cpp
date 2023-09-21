@@ -54,7 +54,8 @@ void Player::checkCollision(Enemy::List &enemies)
     for (auto &enemy : enemies) {
         SDL_Rect enemyRect = enemy->GetRect();
         if (RectIntersects(&rect, &enemyRect)) {
-            health--;
+            health -= 5;
+            enemy->InvertVelocity();
         }
     }
 }

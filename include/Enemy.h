@@ -22,6 +22,8 @@ public:
     virtual void Draw(SDL_Renderer *rend) = 0;
     virtual void Update(Trail::List &trails) = 0;
 
+    void InvertVelocity(void);
+
     virtual int GetWidth(void) const = 0;
     virtual int GetHeight(void) const = 0;
     virtual Type GetType(void) const = 0;
