@@ -24,6 +24,7 @@
 					<Add option="-pg" />
 					<Add library="SDL2" />
 					<Add library="SDL2_ttf" />
+					<Add library="SDL2_image" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -44,6 +45,7 @@
 					<Add option="-s" />
 					<Add library="SDL2" />
 					<Add library="SDL2_ttf" />
+					<Add library="SDL2_image" />
 				</Linker>
 			</Target>
 		</Build>
