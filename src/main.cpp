@@ -74,6 +74,9 @@ int main(int argc, char **argv)
     // trails
     Trail::List trails;
 
+    // background color
+    SDL_Color bgColor;
+
     bool running = true;
     while (running) {
         SDL_Event ev;
@@ -95,7 +98,7 @@ int main(int argc, char **argv)
         }
 
         // update player
-        player->Update(enemies, trails);
+        player->Update(enemies, trails, bgColor);
 
         // update enemies
         for (auto &enemy : enemies) {
@@ -111,8 +114,18 @@ int main(int argc, char **argv)
             }
         }
 
+        // update bg color
+        for (int i = 0; i < 3; i++) {
+            if ((int)bgColor.r - 1 >= 0)
+                bgColor.r--;
+            if ((int)bgColor.g - 1 >= 0)
+                bgColor.g--;
+            if ((int)bgColor.b - 1 >= 0)
+                bgColor.b--;
+        }
+
         // clear window
-        SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(rend, bgColor.r, bgColor.g, bgColor.b, 255);
         SDL_RenderClear(rend);
 
         // draw trails

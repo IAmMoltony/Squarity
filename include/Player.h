@@ -18,7 +18,7 @@ public:
     ~Player();
 
     void Draw(SDL_Renderer *rend);
-    void Update(Enemy::List &enemies, Trail::List &trails);
+    void Update(Enemy::List &enemies, Trail::List &trails, SDL_Color &bgColor);
     void OnKeyPress(SDL_KeyboardEvent ev);
     void OnKeyRelease(SDL_KeyboardEvent ev);
 
@@ -31,7 +31,7 @@ private:
 
     void applyVelocity(void);
     void clampPosition(void);
-    void checkCollision(Enemy::List &enemies);
+    void checkCollision(Enemy::List &enemies, SDL_Color &bgColor);
     void updateTrail(Trail::List &trails);
 };
 

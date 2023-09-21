@@ -22,11 +22,11 @@ void Player::Draw(SDL_Renderer *rend)
     SDL_RenderFillRect(rend, &rect);
 }
 
-void Player::Update(Enemy::List &enemies, Trail::List &trails)
+void Player::Update(Enemy::List &enemies, Trail::List &trails, SDL_Color &bgColor)
 {
     applyVelocity();
     clampPosition();
-    checkCollision(enemies);
+    checkCollision(enemies, bgColor);
     updateTrail(trails);
 }
 
@@ -48,7 +48,7 @@ void Player::clampPosition(void)
         y = 600 - HEIGHT;
 }
 
-void Player::checkCollision(Enemy::List &enemies)
+void Player::checkCollision(Enemy::List &enemies, SDL_Color &bgColor)
 {
     SDL_Rect rect = GetRect();
     for (auto &enemy : enemies) {
@@ -56,6 +56,9 @@ void Player::checkCollision(Enemy::List &enemies)
         if (RectIntersects(&rect, &enemyRect)) {
             health -= 5;
             enemy->InvertVelocity();
+            bgColor.r = 120;
+            bgColor.g = 0;
+            bgColor.b = 0;
         }
     }
 }
