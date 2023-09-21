@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 
         // update enemies
         for (auto &enemy : enemies) {
-            enemy->Update();
+            enemy->Update(trails);
         }
 
         // update trails

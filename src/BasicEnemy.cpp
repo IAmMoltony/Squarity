@@ -25,10 +25,11 @@ void BasicEnemy::Draw(SDL_Renderer *rend)
     SDL_RenderFillRect(rend, &rect);
 }
 
-void BasicEnemy::Update(void)
+void BasicEnemy::Update(Trail::List &trails)
 {
     applyVelocity();
     checkBounds();
+    updateTrail(trails);
 }
 
 void BasicEnemy::applyVelocity(void)
@@ -43,6 +44,11 @@ void BasicEnemy::checkBounds(void)
         velX *= -1;
     if (y < 0 || y > 600 - GetHeight())
         velY *= -1;
+}
+
+void BasicEnemy::updateTrail(Trail::List &trails)
+{
+    trails.push_back(new Trail(x, y, GetWidth(), GetHeight(), 255, 0, 0));
 }
 
 int BasicEnemy::GetWidth(void) const

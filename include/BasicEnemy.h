@@ -9,7 +9,7 @@ public:
     BasicEnemy(int x, int y);
 
     void Draw(SDL_Renderer *rend) override;
-    void Update(void) override;
+    void Update(Trail::List &trails) override;
 
     int GetWidth(void) const override;
     int GetHeight(void) const override;
@@ -20,6 +20,7 @@ private:
     void initVelocity(void);
     void applyVelocity(void);
     void checkBounds(void);
+    void updateTrail(Trail::List &trails);
 };
 
 #endif // BASICENEMY_H

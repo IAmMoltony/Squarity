@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <vector>
+#include "Trail.h"
 
 class Enemy
 {
@@ -19,7 +20,7 @@ public:
     virtual ~Enemy();
 
     virtual void Draw(SDL_Renderer *rend) = 0;
-    virtual void Update(void) = 0;
+    virtual void Update(Trail::List &trails) = 0;
 
     virtual int GetWidth(void) const = 0;
     virtual int GetHeight(void) const = 0;
