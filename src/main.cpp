@@ -60,11 +60,14 @@ int main(int argc, char **argv)
         return 4;
     }
 
+    // score
+    int score = 0;
+
     // player
     Player *player = new Player(400 - Player::WIDTH / 2, 300 - Player::HEIGHT / 2, 255, 255, 255);
 
     // heads up display
-    HUD *hud = new HUD(player);
+    HUD *hud = new HUD(player, &score);
 
     // enemies
     Enemy::List enemies;
@@ -96,6 +99,8 @@ int main(int argc, char **argv)
                     break;
             }
         }
+
+        score++;
 
         // update player
         player->Update(enemies, trails, bgColor);
