@@ -12,7 +12,7 @@ public:
     static inline constexpr int HEIGHT = 32;
     static inline constexpr int FULL_HEALTH = 150;
 
-    static void LoadSprites(void);
+    static void LoadSprites(SDL_Renderer *rend);
     static void UnloadSprites(void);
 
     Uint8 colorR, colorG, colorB;

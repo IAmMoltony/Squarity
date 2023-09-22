@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "collision.h"
 
-static void Player::LoadSprites(void)
+static void Player::LoadSprites(SDL_Renderer *rend)
 {
 #ifdef DEBUG
     SDL_Log("Loading player assets\n");
