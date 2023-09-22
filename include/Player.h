@@ -32,8 +32,7 @@ public:
     int GetHealth(void) const;
 
 private:
-    int x, y, velX, velY;
-    int health;
+    int x, y, velX, velY, health, invincibilityFrames;
     SDL_Texture *currentSprite;
     static SDL_Texture *spriteIdle, *spriteLeft, *spriteRight, *spriteUp, *spriteDown, *spriteUpLeft, *spriteUpRight,
                 *spriteDownLeft, *spriteDownRight;
@@ -43,6 +42,7 @@ private:
     void checkCollision(Enemy::List &enemies, SDL_Color &bgColor);
     void updateTrail(Trail::List &trails);
     void updateSprite(void);
+    void updateInvincibility(void);
 };
 
 #endif // PLAYER_H

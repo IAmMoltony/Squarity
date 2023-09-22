@@ -41,7 +41,7 @@ void Player::UnloadSprites(void)
 
 Player::Player(int x, int y, Uint8 colorR, Uint8 colorG, Uint8 colorB) : colorR(colorR), colorG(colorG), colorB(colorB),
                                                                          x(x), y(y), velX(0), velY(0), health(FULL_HEALTH),
-                                                                         currentSprite(spriteIdle)
+                                                                         currentSprite(spriteIdle), invincibilityFrames(0)
 {
 }
 
@@ -68,6 +68,7 @@ void Player::Update(Enemy::List &enemies, Trail::List &trails, SDL_Color &bgColo
     checkCollision(enemies, bgColor);
     updateTrail(trails);
     updateSprite();
+    updateInvincibility();
 }
 
 void Player::applyVelocity(void)
@@ -91,14 +92,17 @@ void Player::clampPosition(void)
 void Player::checkCollision(Enemy::List &enemies, SDL_Color &bgColor)
 {
     SDL_Rect rect = GetRect();
-    for (auto &enemy : enemies) {
-        SDL_Rect enemyRect = enemy->GetRect();
-        if (RectIntersects(&rect, &enemyRect)) {
-            health -= 5;
-            enemy->InvertVelocity();
-            bgColor.r = 120;
-            bgColor.g = 0;
-            bgColor.b = 0;
+    if (!invincibilityFrames) {
+        for (auto &enemy : enemies) {
+            SDL_Rect enemyRect = enemy->GetRect();
+            if (RectIntersects(&rect, &enemyRect)) {
+                health -= 5;
+                enemy->InvertVelocity();
+                bgColor.r = 120;
+                bgColor.g = 0;
+                bgColor.b = 0;
+                invincibilityFrames = 95;
+            }
         }
     }
 }
@@ -128,6 +132,13 @@ void Player::updateSprite(void)
         currentSprite = spriteUpRight;
     else
         currentSprite = spriteIdle;
+}
+
+void Player::updateInvincibility(void)
+{
+    invincibilityFrames--;
+    if (invincibilityFrames < 0)
+        invincibilityFrames = 0;
 }
 
 void Player::OnKeyPress(SDL_KeyboardEvent ev)
