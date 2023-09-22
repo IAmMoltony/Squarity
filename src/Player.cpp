@@ -1,18 +1,42 @@
 #include "Player.h"
 #include "collision.h"
+#include "imgload.h"
 
-static void Player::LoadSprites(SDL_Renderer *rend)
+SDL_Texture *Player::spriteIdle, *Player::spriteLeft, *Player::spriteRight, *Player::spriteUp, *Player::spriteDown,
+                   *Player::spriteUpLeft, *Player::spriteUpRight, *Player::spriteDownLeft, *Player::spriteDownRight;
+
+void Player::LoadSprites(SDL_Renderer *rend)
 {
 #ifdef DEBUG
     SDL_Log("Loading player assets\n");
 #endif
+
+    spriteIdle = LoadImage(rend, "./assets/images/player_idle.png");
+    spriteLeft = LoadImage(rend, "./assets/images/player_left.png");
+    spriteRight = LoadImage(rend, "./assets/images/player_right.png");
+    spriteUp = LoadImage(rend, "./assets/images/player_up.png");
+    spriteDown = LoadImage(rend, "./assets/images/player_down.png");
+    spriteUpLeft = LoadImage(rend, "./assets/images/player_up_left.png");
+    spriteUpRight = LoadImage(rend, "./assets/images/player_up_right.png");
+    spriteDownLeft = LoadImage(rend, "./assets/images/player_down_left.png");
+    spriteDownRight = LoadImage(rend, "./assets/images/player_down_right.png");
 }
 
-static void Player::UnloadSprites(void)
+void Player::UnloadSprites(void)
 {
 #ifdef DEBUG
     SDL_Log("Unloading player assets\n");
 #endif
+
+    SDL_DestroyTexture(spriteIdle);
+    SDL_DestroyTexture(spriteLeft);
+    SDL_DestroyTexture(spriteRight);
+    SDL_DestroyTexture(spriteUp);
+    SDL_DestroyTexture(spriteDown);
+    SDL_DestroyTexture(spriteUpLeft);
+    SDL_DestroyTexture(spriteUpRight);
+    SDL_DestroyTexture(spriteDownLeft);
+    SDL_DestroyTexture(spriteDownRight);
 }
 
 Player::Player(int x, int y, Uint8 colorR, Uint8 colorG, Uint8 colorB) : colorR(colorR), colorG(colorG), colorB(colorB),

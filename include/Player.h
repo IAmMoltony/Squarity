@@ -31,6 +31,8 @@ public:
 private:
     int x, y, velX, velY;
     int health;
+    static SDL_Texture *spriteIdle, *spriteLeft, *spriteRight, *spriteUp, *spriteDown, *spriteUpLeft, *spriteUpRight,
+                *spriteDownLeft, *spriteDownRight;
 
     void applyVelocity(void);
     void clampPosition(void);

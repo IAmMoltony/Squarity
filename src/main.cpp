@@ -80,6 +80,9 @@ int main(int argc, char **argv)
     // background color
     SDL_Color bgColor;
 
+    // load player sprites
+    Player::LoadSprites(rend);
+
     bool running = true;
     while (running) {
         SDL_Event ev;
@@ -153,6 +156,9 @@ int main(int argc, char **argv)
         SDL_RenderPresent(rend);
         SDL_Delay(1000 / 60);
     }
+
+    // unload player sprites
+    Player::UnloadSprites();
 
     // destroy player
     delete player;
