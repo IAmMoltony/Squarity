@@ -1,6 +1,20 @@
 #include "Player.h"
 #include "collision.h"
 
+static void Player::LoadSprites(void)
+{
+#ifdef DEBUG
+    SDL_Log("Loading player assets\n");
+#endif
+}
+
+static void Player::UnloadSprites(void)
+{
+#ifdef DEBUG
+    SDL_Log("Unloading player assets\n");
+#endif
+}
+
 Player::Player(int x, int y, Uint8 colorR, Uint8 colorG, Uint8 colorB) : colorR(colorR), colorG(colorG), colorB(colorB),
                                                                          x(x), y(y), velX(0), velY(0), health(FULL_HEALTH)
 {

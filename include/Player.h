@@ -12,6 +12,9 @@ public:
     static inline constexpr int HEIGHT = 32;
     static inline constexpr int FULL_HEALTH = 150;
 
+    static void LoadSprites(void);
+    static void UnloadSprites(void);
+
     Uint8 colorR, colorG, colorB;
 
     Player(int x, int y, Uint8 colorR, Uint8 colorG, Uint8 colorB);
