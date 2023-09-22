@@ -20,6 +20,9 @@ public:
     Player(int x, int y, Uint8 colorR, Uint8 colorG, Uint8 colorB);
     ~Player();
 
+    Player(const Player &) = delete;
+    Player &operator=(const Player &) = delete;
+
     void Draw(SDL_Renderer *rend);
     void Update(Enemy::List &enemies, Trail::List &trails, SDL_Color &bgColor);
     void OnKeyPress(SDL_KeyboardEvent ev);
@@ -31,6 +34,7 @@ public:
 private:
     int x, y, velX, velY;
     int health;
+    SDL_Texture *currentSprite;
     static SDL_Texture *spriteIdle, *spriteLeft, *spriteRight, *spriteUp, *spriteDown, *spriteUpLeft, *spriteUpRight,
                 *spriteDownLeft, *spriteDownRight;
 
@@ -38,6 +42,7 @@ private:
     void clampPosition(void);
     void checkCollision(Enemy::List &enemies, SDL_Color &bgColor);
     void updateTrail(Trail::List &trails);
+    void updateSprite(void);
 };
 
 #endif // PLAYER_H

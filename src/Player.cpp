@@ -40,7 +40,8 @@ void Player::UnloadSprites(void)
 }
 
 Player::Player(int x, int y, Uint8 colorR, Uint8 colorG, Uint8 colorB) : colorR(colorR), colorG(colorG), colorB(colorB),
-                                                                         x(x), y(y), velX(0), velY(0), health(FULL_HEALTH)
+                                                                         x(x), y(y), velX(0), velY(0), health(FULL_HEALTH),
+                                                                         currentSprite(spriteIdle)
 {
 }
 
@@ -57,7 +58,7 @@ void Player::Draw(SDL_Renderer *rend)
     SDL_SetRenderDrawColor(rend, colorR, colorG, colorB, 255);
 
     // render player
-    SDL_RenderFillRect(rend, &rect);
+    SDL_RenderCopy(rend, currentSprite, nullptr, &rect);
 }
 
 void Player::Update(Enemy::List &enemies, Trail::List &trails, SDL_Color &bgColor)
@@ -66,6 +67,7 @@ void Player::Update(Enemy::List &enemies, Trail::List &trails, SDL_Color &bgColo
     clampPosition();
     checkCollision(enemies, bgColor);
     updateTrail(trails);
+    updateSprite();
 }
 
 void Player::applyVelocity(void)
@@ -104,6 +106,28 @@ void Player::checkCollision(Enemy::List &enemies, SDL_Color &bgColor)
 void Player::updateTrail(Trail::List &trails)
 {
     trails.push_back(new Trail(x, y, WIDTH, HEIGHT, colorR, colorG, colorB));
+}
+
+void Player::updateSprite(void)
+{
+    if (velX > 0 && velY == 0)
+        currentSprite = spriteRight;
+    else if (velX < 0 && velY == 0)
+        currentSprite = spriteLeft;
+    else if (velX == 0 && velY < 0)
+        currentSprite = spriteUp;
+    else if (velX == 0 && velY > 0)
+        currentSprite = spriteDown;
+    else if (velX > 0 && velY > 0)
+        currentSprite = spriteDownRight;
+    else if (velX < 0 && velY > 0)
+        currentSprite = spriteDownLeft;
+    else if (velX < 0 && velY < 0)
+        currentSprite = spriteUpLeft;
+    else if (velX > 0 && velY < 0)
+        currentSprite = spriteUpRight;
+    else
+        currentSprite = spriteIdle;
 }
 
 void Player::OnKeyPress(SDL_KeyboardEvent ev)
