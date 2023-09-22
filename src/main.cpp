@@ -8,12 +8,21 @@
 #include <ctime>
 #include <unistd.h>
 
-int main(int argc, char **argv)
-{
-    (void)argc;
-    (void)argv;
+static SDL_Window *_window = nullptr;
+static SDL_Renderer *_rend = nullptr;
 
+static int _score = 0;
+static Player *_player = nullptr;
+static HUD *_hud = nullptr;
+static Enemy::List _enemies;
+static Trail::List _trails;
+static SDL_Color _bgColor;
+
+static int _Init(void)
+{
 #ifdef DEBUG
+    SDL_Log("Initializing\n");
+
     // print cwd
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))) {
@@ -33,157 +42,190 @@ int main(int argc, char **argv)
     }
 
     // init window
-    SDL_Window *window = SDL_CreateWindow("Squarity", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, 0);
-    if (!window) {
+    _window = SDL_CreateWindow("Squarity", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, 0);
+    if (!_window) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window because %s\n", SDL_GetError());
         SDL_Quit();
         return 1;
     }
 
     // init renderer
-    SDL_Renderer *rend = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!rend) {
+    _rend = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+    if (!_rend) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer because %s\n", SDL_GetError());
-        SDL_DestroyWindow(window);
+        SDL_DestroyWindow(_window);
         SDL_Quit();
         return 2;
     }
 
-    SDL_SetRenderDrawBlendMode(rend, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawBlendMode(_rend, SDL_BLENDMODE_BLEND);
 
     // init ttf
     if (TTF_Init() != 0) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize TTF because %s\n", TTF_GetError());
-        SDL_DestroyRenderer(rend);
-        SDL_DestroyWindow(window);
+        SDL_DestroyRenderer(_rend);
+        SDL_DestroyWindow(_window);
         SDL_Quit();
         return 4;
     }
 
     // score
-    int score = 0;
+    _score = 0;
 
     // player
-    Player *player = new Player(400 - Player::WIDTH / 2, 300 - Player::HEIGHT / 2, 255, 255, 255);
+    _player = new Player(400 - Player::WIDTH / 2, 300 - Player::HEIGHT / 2, 255, 255, 255);
 
     // heads up display
-    HUD *hud = new HUD(player, &score);
+    _hud = new HUD(_player, &_score);
 
     // enemies
-    Enemy::List enemies;
-    enemies.push_back(new BasicEnemy(10, 10));
-    enemies.push_back(new FastEnemy(100, 100));
+    _enemies.push_back(new BasicEnemy(10, 10));
+    _enemies.push_back(new FastEnemy(100, 100));
 
-    // trails
-    Trail::List trails;
-
-    // background color
-    SDL_Color bgColor;
+    // bg color
+    _bgColor = {0, 0, 0, 255};
 
     // load player sprites
-    Player::LoadSprites(rend);
+    Player::LoadSprites(_rend);
 
-    bool running = true;
-    while (running) {
-        SDL_Event ev;
-        while (SDL_PollEvent(&ev)) {
-            switch (ev.type) {
-                case SDL_QUIT:
-                    // stop running on quit
-                    running = false;
-                    break;
-                case SDL_KEYDOWN:
-                    player->OnKeyPress(ev.key);
-                    if (ev.key.keysym.sym == SDLK_ESCAPE)
-                        running = false;
-                    break;
-                case SDL_KEYUP:
-                    player->OnKeyRelease(ev.key);
-                    break;
-            }
-        }
+    return 0;
+}
 
-        score++;
-
-        // update player
-        player->Update(enemies, trails, bgColor);
-
-        // update enemies
-        for (auto &enemy : enemies) {
-            enemy->Update(trails);
-        }
-
-        // update trails
-        for (size_t i = 0; i < trails.size(); i++) {
-            trails[i]->Update();
-            if (trails[i]->GetAlpha() == 0) {
-                delete trails[i];
-                trails.erase(trails.begin() + i);
-            }
-        }
-
-        // update bg color
-        for (int i = 0; i < 3; i++) {
-            if ((int)bgColor.r - 1 >= 0)
-                bgColor.r--;
-            if ((int)bgColor.g - 1 >= 0)
-                bgColor.g--;
-            if ((int)bgColor.b - 1 >= 0)
-                bgColor.b--;
-        }
-
-        // clear window
-        SDL_SetRenderDrawColor(rend, bgColor.r, bgColor.g, bgColor.b, 255);
-        SDL_RenderClear(rend);
-
-        // draw trails
-        for (auto &trail : trails) {
-            trail->Draw(rend);
-        }
-
-        // draw player
-        player->Draw(rend);
-
-        // draw enemies
-        for (auto &enemy : enemies) {
-            enemy->Draw(rend);
-        }
-
-        // draw HUD
-        hud->Draw(rend);
-
-        // update window and wait for next frame
-        SDL_RenderPresent(rend);
-        SDL_Delay(1000 / 60);
-    }
+static void _Destroy(void)
+{
+#ifdef DEBUG
+    SDL_Log("Destroying\n");
+#endif
 
     // unload player sprites
     Player::UnloadSprites();
 
     // destroy player
-    delete player;
+    delete _player;
 
     // destroy enemies
-    for (auto &enemy : enemies) {
+    for (auto &enemy : _enemies) {
         delete enemy;
     }
-    enemies.clear();
+    _enemies.clear();
 
     // destroy trails
-    for (auto &trail : trails) {
+    for (auto &trail : _trails) {
         delete trail;
     }
-    trails.clear();
+    _trails.clear();
 
     // destroy HUD
-    delete hud;
+    delete _hud;
 
     // destroy SDL stuff
     TTF_Quit();
-    SDL_DestroyRenderer(rend);
-    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(_rend);
+    SDL_DestroyWindow(_window);
     SDL_Quit();
+}
 
+static void _PollEvents(bool &running)
+{
+    SDL_Event ev;
+    while (SDL_PollEvent(&ev)) {
+        switch (ev.type) {
+            case SDL_QUIT:
+                // stop running on quit
+                running = false;
+                break;
+            case SDL_KEYDOWN:
+                _player->OnKeyPress(ev.key);
+                if (ev.key.keysym.sym == SDLK_ESCAPE)
+                    running = false;
+                break;
+            case SDL_KEYUP:
+                _player->OnKeyRelease(ev.key);
+                break;
+        }
+    }
+}
+
+static void _Update(void)
+{
+    _score++;
+
+    // update player
+    _player->Update(_enemies, _trails, _bgColor);
+
+    // update enemies
+    for (auto &enemy : _enemies) {
+        enemy->Update(_trails);
+    }
+
+    // update trails
+    for (size_t i = 0; i < _trails.size(); i++) {
+        _trails[i]->Update();
+        if (_trails[i]->GetAlpha() == 0) {
+            delete _trails[i];
+            _trails.erase(_trails.begin() + i);
+        }
+    }
+
+    // update bg color
+    for (int i = 0; i < 3; i++) {
+        if ((int)_bgColor.r - 1 >= 0)
+            _bgColor.r--;
+        if ((int)_bgColor.g - 1 >= 0)
+            _bgColor.g--;
+        if ((int)_bgColor.b - 1 >= 0)
+            _bgColor.b--;
+    }
+}
+
+static void _Draw(void)
+{
+    // clear window
+    SDL_SetRenderDrawColor(_rend, _bgColor.r, _bgColor.g, _bgColor.b, 255);
+    SDL_RenderClear(_rend);
+
+    // draw trails
+    for (auto &trail : _trails) {
+        trail->Draw(_rend);
+    }
+
+    // draw player
+    _player->Draw(_rend);
+
+    // draw enemies
+    for (auto &enemy : _enemies) {
+        enemy->Draw(_rend);
+    }
+
+    // draw HUD
+    _hud->Draw(_rend);
+
+    // update window and wait for next frame
+    SDL_RenderPresent(_rend);
+}
+
+static void _Run(void)
+{
+    bool running = true;
+    while (running) {
+        _PollEvents(running);
+        _Update();
+        _Draw();
+        SDL_Delay(1000 / 60);
+    }
+}
+
+int main(int argc, char **argv)
+{
+    (void)argc;
+    (void)argv;
+
+    int initResult = _Init();
+    if (initResult)
+        return initResult;
+
+    _Run();
+    _Destroy();
 
     return 0;
 }

@@ -33,6 +33,7 @@ public:
 
 private:
     int x, y, velX, velY, health, invincibilityFrames;
+    bool left, right, up, down;
     SDL_Texture *currentSprite;
     static SDL_Texture *spriteIdle, *spriteLeft, *spriteRight, *spriteUp, *spriteDown, *spriteUpLeft, *spriteUpRight,
                 *spriteDownLeft, *spriteDownRight;
@@ -43,6 +44,7 @@ private:
     void updateTrail(Trail::List &trails);
     void updateSprite(void);
     void updateInvincibility(void);
+    void updateControls(void);
 };
 
 #endif // PLAYER_H

@@ -41,7 +41,8 @@ void Player::UnloadSprites(void)
 
 Player::Player(int x, int y, Uint8 colorR, Uint8 colorG, Uint8 colorB) : colorR(colorR), colorG(colorG), colorB(colorB),
                                                                          x(x), y(y), velX(0), velY(0), health(FULL_HEALTH),
-                                                                         currentSprite(spriteIdle), invincibilityFrames(0)
+                                                                         currentSprite(spriteIdle), invincibilityFrames(0),
+                                                                         left(false), right(false), up(false), down(false)
 {
 }
 
@@ -69,6 +70,7 @@ void Player::Update(Enemy::List &enemies, Trail::List &trails, SDL_Color &bgColo
     updateTrail(trails);
     updateSprite();
     updateInvincibility();
+    updateControls();
 }
 
 void Player::applyVelocity(void)
@@ -101,7 +103,7 @@ void Player::checkCollision(Enemy::List &enemies, SDL_Color &bgColor)
                 bgColor.r = 120;
                 bgColor.g = 0;
                 bgColor.b = 0;
-                invincibilityFrames = 95;
+                invincibilityFrames = 60;
             }
         }
     }
@@ -141,6 +143,23 @@ void Player::updateInvincibility(void)
         invincibilityFrames = 0;
 }
 
+void Player::updateControls(void)
+{
+    if (left)
+        velX = -5;
+    else if (right)
+        velX = 5;
+    else
+        velX = 0;
+
+    if (up)
+        velY = -5;
+    else if (down)
+        velY = 5;
+    else
+        velY = 0;
+}
+
 void Player::OnKeyPress(SDL_KeyboardEvent ev)
 {
     SDL_Keycode code = ev.keysym.sym;
@@ -148,22 +167,22 @@ void Player::OnKeyPress(SDL_KeyboardEvent ev)
         case SDLK_LEFT:
         case SDLK_a:
             // go to left
-            velX = -5;
+            left = true;
             break;
         case SDLK_RIGHT:
         case SDLK_d:
             // go to right
-            velX = 5;
+            right = true;
             break;
         case SDLK_UP:
         case SDLK_w:
             // go to up
-            velY = -5;
+            up = true;
             break;
         case SDLK_DOWN:
         case SDLK_s:
             // go to down
-            velY = 5;
+            down = true;
             break;
         default:
             break;
@@ -175,16 +194,20 @@ void Player::OnKeyRelease(SDL_KeyboardEvent ev)
     SDL_Keycode code = ev.keysym.sym;
     switch (code) {
         case SDLK_LEFT:
-        case SDLK_RIGHT:
         case SDLK_a:
+            left = false;
+            break;
+        case SDLK_RIGHT:
         case SDLK_d:
-            velX = 0;
+            right = false;
             break;
         case SDLK_UP:
-        case SDLK_DOWN:
         case SDLK_w:
+            up = false;
+            break;
+        case SDLK_DOWN:
         case SDLK_s:
-            velY = 0;
+            down = false;
             break;
     }
 }
