@@ -50,7 +50,7 @@ static int _Init(void)
     }
 
     // init renderer
-    _rend = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+    _rend = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!_rend) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer because %s\n", SDL_GetError());
         SDL_DestroyWindow(_window);
@@ -211,7 +211,6 @@ static void _Run(void)
         _PollEvents(running);
         _Update();
         _Draw();
-        SDL_Delay(1000 / 60);
     }
 }
 
