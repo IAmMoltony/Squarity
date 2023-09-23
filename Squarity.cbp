@@ -62,6 +62,7 @@
 		<Unit filename="include/Trail.h" />
 		<Unit filename="include/collision.h" />
 		<Unit filename="include/imgload.h" />
+		<Unit filename="include/sndload.h" />
 		<Unit filename="include/textrender.h" />
 		<Unit filename="src/BasicEnemy.cpp" />
 		<Unit filename="src/Enemy.cpp" />
@@ -76,6 +77,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/sndload.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/textrender.c">
 			<Option compilerVar="CC" />
 		</Unit>
