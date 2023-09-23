@@ -8,6 +8,8 @@ Squarity is a game about a square who has to avoid other squares written in C an
 
 - SDL2
 - SDL2_ttf
+- SDL2_image
+- SDL2_mixer
 
 ## Building
 
