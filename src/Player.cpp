@@ -247,3 +247,13 @@ int Player::GetHealth(void) const
 {
     return health;
 }
+
+int Player::GetX(void) const
+{
+    return x;
+}
+
+int Player::GetY(void) const
+{
+    return y;
+}

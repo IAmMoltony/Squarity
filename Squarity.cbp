@@ -58,17 +58,24 @@
 		<Unit filename="include/Enemy.h" />
 		<Unit filename="include/FastEnemy.h" />
 		<Unit filename="include/HUD.h" />
+		<Unit filename="include/Particle.h" />
 		<Unit filename="include/Player.h" />
+		<Unit filename="include/SmartEnemy.h" />
+		<Unit filename="include/Sound.h" />
 		<Unit filename="include/Trail.h" />
 		<Unit filename="include/collision.h" />
 		<Unit filename="include/imgload.h" />
+		<Unit filename="include/random.h" />
 		<Unit filename="include/sndload.h" />
 		<Unit filename="include/textrender.h" />
 		<Unit filename="src/BasicEnemy.cpp" />
 		<Unit filename="src/Enemy.cpp" />
 		<Unit filename="src/FastEnemy.cpp" />
 		<Unit filename="src/HUD.cpp" />
+		<Unit filename="src/Particle.cpp" />
 		<Unit filename="src/Player.cpp" />
+		<Unit filename="src/SmartEnemy.cpp" />
+		<Unit filename="src/Sound.cpp" />
 		<Unit filename="src/Trail.cpp" />
 		<Unit filename="src/collision.c">
 			<Option compilerVar="CC" />
@@ -77,6 +84,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/random.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/sndload.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -26,8 +26,12 @@ void BasicEnemy::Draw(SDL_Renderer *rend)
     SDL_RenderFillRect(rend, &rect);
 }
 
-void BasicEnemy::Update(Trail::List &trails, Particle::List &particles)
+void BasicEnemy::Update(Trail::List &trails, Particle::List &particles, int playerX, int playerY)
 {
+    // player X and Y are not needed
+    (void)playerX;
+    (void)playerY;
+
     applyVelocity();
     checkBounds(particles);
     updateTrail(trails);

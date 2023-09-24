@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "BasicEnemy.h"
 #include "FastEnemy.h"
+#include "SmartEnemy.h"
 #include "HUD.h"
 #include "Particle.h"
 #include "random.h"
@@ -94,6 +95,7 @@ static int _Init(void)
     // enemies
     _enemies.push_back(new BasicEnemy(10, 10));
     _enemies.push_back(new FastEnemy(100, 100));
+    _enemies.push_back(new SmartEnemy(100, 300));
 
     // bg color
     _bgColor = {0, 0, 0, 255};
@@ -177,7 +179,7 @@ static void _Update(void)
 
     // update enemies
     for (auto &enemy : _enemies) {
-        enemy->Update(_trails, _particles);
+        enemy->Update(_trails, _particles, _player->GetX(), _player->GetY());
     }
 
     // update trails

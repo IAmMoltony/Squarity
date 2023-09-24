@@ -24,3 +24,8 @@ SDL_Color FastEnemy::GetColor(void) const
     color.a = 255;
     return color;
 }
+
+Enemy::Type FastEnemy::GetType(void) const
+{
+    return Type::Fast;
+}

@@ -9,7 +9,7 @@ public:
     BasicEnemy(int x, int y);
 
     void Draw(SDL_Renderer *rend) override;
-    void Update(Trail::List &trails, Particle::List &particles) override;
+    void Update(Trail::List &trails, Particle::List &particles, int playerX, int playerY) override;
 
     int GetWidth(void) const override;
     int GetHeight(void) const override;

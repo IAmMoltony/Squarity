@@ -10,6 +10,7 @@ public:
     ~FastEnemy();
 
     SDL_Color GetColor(void) const override;
+    Type GetType(void) const override;
 
 private:
     void initVelocity(void) override;

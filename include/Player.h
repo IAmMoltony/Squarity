@@ -35,6 +35,8 @@ public:
 
     SDL_Rect GetRect(void) const;
     int GetHealth(void) const;
+    int GetX(void) const;
+    int GetY(void) const;
 
 private:
     int x, y, velX, velY, health, invincibilityFrames;

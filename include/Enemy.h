@@ -12,6 +12,8 @@ public:
     enum class Type
     {
         Basic,
+        Fast,
+        Smart,
     };
 
     typedef Enemy *Pointer;
@@ -21,7 +23,7 @@ public:
     virtual ~Enemy();
 
     virtual void Draw(SDL_Renderer *rend) = 0;
-    virtual void Update(Trail::List &trails, Particle::List &particles) = 0;
+    virtual void Update(Trail::List &trails, Particle::List &particles, int playerX, int playerY) = 0;
 
     void InvertVelocity(void);
 
