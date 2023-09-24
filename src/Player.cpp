@@ -60,8 +60,8 @@ void Player::UnloadSounds(void)
 
 Player::Player(int x, int y, Uint8 colorR, Uint8 colorG, Uint8 colorB) : colorR(colorR), colorG(colorG), colorB(colorB),
                                                                          x(x), y(y), velX(0), velY(0), health(FULL_HEALTH),
-                                                                         currentSprite(spriteIdle), invincibilityFrames(0),
-                                                                         left(false), right(false), up(false), down(false)
+                                                                         invincibilityFrames(0), left(false), right(false),
+                                                                         up(false), down(false), currentSprite(spriteIdle)
 {
 }
 

@@ -2,7 +2,8 @@
 #include "BasicEnemy.h"
 #include "FastEnemy.h"
 #include "HUD.h"
-#include "sndload.h"
+#include "Particle.h"
+#include "random.h"
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <cstdlib>
@@ -17,6 +18,7 @@ static Player *_player = nullptr;
 static HUD *_hud = nullptr;
 static Enemy::List _enemies;
 static Trail::List _trails;
+static Particle::List _particles;
 static SDL_Color _bgColor;
 
 static int _Init(void)
@@ -34,7 +36,7 @@ static int _Init(void)
 #endif
 
     // init random
-    std::srand(std::time(nullptr));
+    RandomInit();
 
     // init SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -128,6 +130,12 @@ static void _Destroy(void)
     }
     _trails.clear();
 
+    // destroy particles
+    for (auto &particle : _particles) {
+        delete particle;
+    }
+    _particles.clear();
+
     // destroy HUD
     delete _hud;
 
@@ -181,6 +189,15 @@ static void _Update(void)
         }
     }
 
+    // update particles
+    for (size_t i = 0; i < _particles.size(); i++) {
+        _particles[i]->Update();
+        if (_particles[i]->GetAlpha() == 0) {
+            delete _particles[i];
+            _particles.erase(_particles.begin() + i);
+        }
+    }
+
     // update bg color
     for (int i = 0; i < 3; i++) {
         if ((int)_bgColor.r - 1 >= 0)
@@ -201,6 +218,11 @@ static void _Draw(void)
     // draw trails
     for (auto &trail : _trails) {
         trail->Draw(_rend);
+    }
+
+    // draw particles
+    for (auto &particle : _particles) {
+        particle->Draw(_rend);
     }
 
     // draw player
