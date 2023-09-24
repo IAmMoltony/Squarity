@@ -15,6 +15,8 @@ static SDL_Window *_window = nullptr;
 static SDL_Renderer *_rend = nullptr;
 
 static int _score = 0;
+static int _level = 1;
+static int _nextLevelScore = 500;
 static Player *_player = nullptr;
 static HUD *_hud = nullptr;
 static Enemy::List _enemies;
@@ -90,7 +92,7 @@ static int _Init(void)
     _player = new Player(400 - Player::WIDTH / 2, 300 - Player::HEIGHT / 2, 255, 255, 255);
 
     // heads up display
-    _hud = new HUD(_player, &_score);
+    _hud = new HUD(_player, &_score, &_level);
 
     // enemies
     _enemies.push_back(new BasicEnemy(10, 10));
@@ -173,6 +175,11 @@ static void _PollEvents(bool &running)
 static void _Update(void)
 {
     _score++;
+
+    if (_score == _nextLevelScore) {
+        _nextLevelScore *= 2;
+        _level++;
+    }
 
     // update player
     _player->Update(_enemies, _trails, _particles, _bgColor);

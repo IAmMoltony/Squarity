@@ -7,7 +7,7 @@
 class HUD
 {
 public:
-    HUD(const Player *player, int *score);
+    HUD(const Player *player, int *score, int *level);
     ~HUD();
 
     HUD(const HUD &) = delete;
@@ -17,7 +17,7 @@ public:
 
 private:
     const Player *player;
-    int *score;
+    int *score, *level;
     TTF_Font *font8;
 };
 
