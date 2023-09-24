@@ -19,8 +19,6 @@ static Enemy::List _enemies;
 static Trail::List _trails;
 static SDL_Color _bgColor;
 
-static Mix_Chunk *_sound;
-
 static int _Init(void)
 {
 #ifdef DEBUG
@@ -101,8 +99,6 @@ static int _Init(void)
     // load player sprites
     Player::LoadSprites(_rend);
 
-    _sound = LoadSound("./assets/sounds/tone.wav");
-
     return 0;
 }
 
@@ -111,8 +107,6 @@ static void _Destroy(void)
 #ifdef DEBUG
     SDL_Log("Destroying\n");
 #endif
-
-    Mix_FreeChunk(_sound);
 
     // unload player sprites
     Player::UnloadSprites();
@@ -156,8 +150,6 @@ static void _PollEvents(bool &running)
                 _player->OnKeyPress(ev.key);
                 if (ev.key.keysym.sym == SDLK_ESCAPE)
                     running = false;
-                if (ev.key.keysym.sym == SDLK_1)
-                    Mix_PlayChannel(-1, _sound, 0);
                 break;
             case SDL_KEYUP:
                 _player->OnKeyRelease(ev.key);
