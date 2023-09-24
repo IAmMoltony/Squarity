@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include "Enemy.h"
 #include "Trail.h"
+#include "Sound.h"
 
 class Player
 {
@@ -14,6 +15,9 @@ public:
 
     static void LoadSprites(SDL_Renderer *rend);
     static void UnloadSprites(void);
+
+    static void LoadSounds(void);
+    static void UnloadSounds(void);
 
     Uint8 colorR, colorG, colorB;
 
@@ -37,6 +41,7 @@ private:
     SDL_Texture *currentSprite;
     static SDL_Texture *spriteIdle, *spriteLeft, *spriteRight, *spriteUp, *spriteDown, *spriteUpLeft, *spriteUpRight,
                 *spriteDownLeft, *spriteDownRight;
+    static Sound *soundHit;
 
     void applyVelocity(void);
     void clampPosition(void);

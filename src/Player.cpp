@@ -4,6 +4,7 @@
 
 SDL_Texture *Player::spriteIdle, *Player::spriteLeft, *Player::spriteRight, *Player::spriteUp, *Player::spriteDown,
                    *Player::spriteUpLeft, *Player::spriteUpRight, *Player::spriteDownLeft, *Player::spriteDownRight;
+Sound *Player::soundHit;
 
 void Player::LoadSprites(SDL_Renderer *rend)
 {
@@ -37,6 +38,24 @@ void Player::UnloadSprites(void)
     SDL_DestroyTexture(spriteUpRight);
     SDL_DestroyTexture(spriteDownLeft);
     SDL_DestroyTexture(spriteDownRight);
+}
+
+void Player::LoadSounds(void)
+{
+#ifdef DEBUG
+    SDL_Log("Loading player sounds\n");
+#endif
+
+    soundHit = new Sound("./assets/sounds/hit.wav");
+}
+
+void Player::UnloadSounds(void)
+{
+#ifdef DEBUG
+    SDL_Log("Unloading player sounds\n");
+#endif
+
+    delete soundHit;
 }
 
 Player::Player(int x, int y, Uint8 colorR, Uint8 colorG, Uint8 colorB) : colorR(colorR), colorG(colorG), colorB(colorB),
@@ -104,6 +123,7 @@ void Player::checkCollision(Enemy::List &enemies, SDL_Color &bgColor)
                 bgColor.g = 0;
                 bgColor.b = 0;
                 invincibilityFrames = 60;
+                soundHit->Play();
             }
         }
     }

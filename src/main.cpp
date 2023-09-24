@@ -96,8 +96,9 @@ static int _Init(void)
     // bg color
     _bgColor = {0, 0, 0, 255};
 
-    // load player sprites
+    // load player stuff
     Player::LoadSprites(_rend);
+    Player::LoadSounds();
 
     return 0;
 }
@@ -108,8 +109,9 @@ static void _Destroy(void)
     SDL_Log("Destroying\n");
 #endif
 
-    // unload player sprites
+    // unload player stuff
     Player::UnloadSprites();
+    Player::UnloadSounds();
 
     // destroy player
     delete _player;
