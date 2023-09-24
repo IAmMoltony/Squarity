@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "Trail.h"
 #include "Sound.h"
+#include "Particle.h"
 
 class Player
 {
@@ -28,7 +29,7 @@ public:
     Player &operator=(const Player &) = delete;
 
     void Draw(SDL_Renderer *rend);
-    void Update(Enemy::List &enemies, Trail::List &trails, SDL_Color &bgColor);
+    void Update(Enemy::List &enemies, Trail::List &trails, Particle::List &particles, SDL_Color &bgColor);
     void OnKeyPress(SDL_KeyboardEvent ev);
     void OnKeyRelease(SDL_KeyboardEvent ev);
 
@@ -45,7 +46,7 @@ private:
 
     void applyVelocity(void);
     void clampPosition(void);
-    void checkCollision(Enemy::List &enemies, SDL_Color &bgColor);
+    void checkCollision(Enemy::List &enemies, Particle::List &particles, SDL_Color &bgColor);
     void updateTrail(Trail::List &trails);
     void updateSprite(void);
     void updateInvincibility(void);

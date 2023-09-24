@@ -81,11 +81,11 @@ void Player::Draw(SDL_Renderer *rend)
     SDL_RenderCopy(rend, currentSprite, nullptr, &rect);
 }
 
-void Player::Update(Enemy::List &enemies, Trail::List &trails, SDL_Color &bgColor)
+void Player::Update(Enemy::List &enemies, Trail::List &trails, Particle::List &particles, SDL_Color &bgColor)
 {
     applyVelocity();
     clampPosition();
-    checkCollision(enemies, bgColor);
+    checkCollision(enemies, particles, bgColor);
     updateTrail(trails);
     updateSprite();
     updateInvincibility();
@@ -110,7 +110,7 @@ void Player::clampPosition(void)
         y = 600 - HEIGHT;
 }
 
-void Player::checkCollision(Enemy::List &enemies, SDL_Color &bgColor)
+void Player::checkCollision(Enemy::List &enemies, Particle::List &particles, SDL_Color &bgColor)
 {
     SDL_Rect rect = GetRect();
     if (!invincibilityFrames) {
@@ -124,6 +124,7 @@ void Player::checkCollision(Enemy::List &enemies, SDL_Color &bgColor)
                 bgColor.b = 0;
                 invincibilityFrames = 60;
                 soundHit->Play();
+                Particle::Spawn(particles, 6, x + WIDTH / 2, y + HEIGHT / 2, 5, -4, 4, {colorR, colorG, colorB, 255});
             }
         }
     }

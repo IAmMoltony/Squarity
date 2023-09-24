@@ -173,7 +173,7 @@ static void _Update(void)
     _score++;
 
     // update player
-    _player->Update(_enemies, _trails, _bgColor);
+    _player->Update(_enemies, _trails, _particles, _bgColor);
 
     // update enemies
     for (auto &enemy : _enemies) {
