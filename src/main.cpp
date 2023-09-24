@@ -177,7 +177,7 @@ static void _Update(void)
 
     // update enemies
     for (auto &enemy : _enemies) {
-        enemy->Update(_trails);
+        enemy->Update(_trails, _particles);
     }
 
     // update trails

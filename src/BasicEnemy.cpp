@@ -26,10 +26,10 @@ void BasicEnemy::Draw(SDL_Renderer *rend)
     SDL_RenderFillRect(rend, &rect);
 }
 
-void BasicEnemy::Update(Trail::List &trails)
+void BasicEnemy::Update(Trail::List &trails, Particle::List &particles)
 {
     applyVelocity();
-    checkBounds();
+    checkBounds(particles);
     updateTrail(trails);
 }
 
@@ -39,12 +39,21 @@ void BasicEnemy::applyVelocity(void)
     y += velY;
 }
 
-void BasicEnemy::checkBounds(void)
+void BasicEnemy::checkBounds(Particle::List &particles)
 {
-    if (x < 0 || x > 800 - GetWidth())
+    bool hitBounds = false;
+    if (x < 0 || x > 800 - GetWidth()) {
         velX *= -1;
-    if (y < 0 || y > 600 - GetHeight())
+        hitBounds = true;
+    }
+    if (y < 0 || y > 600 - GetHeight()) {
         velY *= -1;
+        hitBounds = true;
+    }
+
+    if (hitBounds) {
+        Particle::Spawn(particles, 7, x, y, 5, -3, 3, GetColor());
+    }
 }
 
 void BasicEnemy::updateTrail(Trail::List &trails)

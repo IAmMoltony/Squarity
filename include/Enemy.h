@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include "Trail.h"
+#include "Particle.h"
 
 class Enemy
 {
@@ -20,7 +21,7 @@ public:
     virtual ~Enemy();
 
     virtual void Draw(SDL_Renderer *rend) = 0;
-    virtual void Update(Trail::List &trails) = 0;
+    virtual void Update(Trail::List &trails, Particle::List &particles) = 0;
 
     void InvertVelocity(void);
 
