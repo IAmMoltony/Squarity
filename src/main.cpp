@@ -185,6 +185,9 @@ static void _NextLevel(void)
 
     // spawn enemies
     _enemySpawner->SpawnEnemies(1);
+
+    // set bg color
+    _bgColor = {0, 128, 128, 255};
 }
 
 static void _Update(void)
