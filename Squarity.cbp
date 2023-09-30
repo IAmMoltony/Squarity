@@ -56,6 +56,7 @@
 		</Compiler>
 		<Unit filename="include/BasicEnemy.h" />
 		<Unit filename="include/Enemy.h" />
+		<Unit filename="include/EnemySpawner.h" />
 		<Unit filename="include/FastEnemy.h" />
 		<Unit filename="include/HUD.h" />
 		<Unit filename="include/Particle.h" />
@@ -70,6 +71,7 @@
 		<Unit filename="include/textrender.h" />
 		<Unit filename="src/BasicEnemy.cpp" />
 		<Unit filename="src/Enemy.cpp" />
+		<Unit filename="src/EnemySpawner.cpp" />
 		<Unit filename="src/FastEnemy.cpp" />
 		<Unit filename="src/HUD.cpp" />
 		<Unit filename="src/Particle.cpp" />

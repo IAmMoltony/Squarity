@@ -14,10 +14,14 @@ public:
         Basic,
         Fast,
         Smart,
+        _Last,
     };
 
     typedef Enemy *Pointer;
     typedef std::vector<Pointer> List;
+
+    static Type RandomType(void);
+    static Pointer CreateEnemyFromType(int x, int y, Type type);
 
     Enemy(int x, int y);
     virtual ~Enemy();

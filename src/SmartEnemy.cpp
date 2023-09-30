@@ -26,6 +26,8 @@ void SmartEnemy::Draw(SDL_Renderer *rend)
 
 void SmartEnemy::Update(Trail::List &trails, Particle::List &particles, int playerX, int playerY)
 {
+    (void)particles;
+
     applyVelocity();
     followPlayer(playerX, playerY);
     updateTrail(trails);

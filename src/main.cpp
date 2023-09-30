@@ -2,6 +2,7 @@
 #include "BasicEnemy.h"
 #include "FastEnemy.h"
 #include "SmartEnemy.h"
+#include "EnemySpawner.h"
 #include "HUD.h"
 #include "Particle.h"
 #include "random.h"
@@ -16,9 +17,10 @@ static SDL_Renderer *_rend = nullptr;
 
 static int _score = 0;
 static int _level = 1;
-static int _nextLevelScore = 500;
+static int _nextLevelScore = 1000;
 static Player *_player = nullptr;
 static HUD *_hud = nullptr;
+static EnemySpawner *_enemySpawner = nullptr;
 static Enemy::List _enemies;
 static Trail::List _trails;
 static Particle::List _particles;
@@ -94,13 +96,14 @@ static int _Init(void)
     // heads up display
     _hud = new HUD(_player, &_score, &_level);
 
-    // enemies
-    _enemies.push_back(new BasicEnemy(10, 10));
-    _enemies.push_back(new FastEnemy(100, 100));
-    _enemies.push_back(new SmartEnemy(100, 300));
-
     // bg color
     _bgColor = {0, 0, 0, 255};
+
+    // init enemy spawner
+    _enemySpawner = new EnemySpawner(_enemies);
+
+    // spawn some enemies
+    _enemySpawner->SpawnEnemies(3);
 
     // load player stuff
     Player::LoadSprites(_rend);
@@ -121,6 +124,9 @@ static void _Destroy(void)
 
     // destroy player
     delete _player;
+
+    // destroy enemy spawner
+    delete _enemySpawner;
 
     // destroy enemies
     for (auto &enemy : _enemies) {
@@ -172,13 +178,22 @@ static void _PollEvents(bool &running)
     }
 }
 
+static void _NextLevel(void)
+{
+    _nextLevelScore *= 2;
+    _level++;
+
+    // spawn enemies
+    _enemySpawner->SpawnEnemies(1);
+}
+
 static void _Update(void)
 {
     _score++;
 
     if (_score == _nextLevelScore) {
-        _nextLevelScore *= 2;
-        _level++;
+        // next level
+        _NextLevel();
     }
 
     // update player
