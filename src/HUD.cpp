@@ -2,7 +2,7 @@
 #include "textrender.h"
 #include <string>
 
-HUD::HUD(const Player *player, int *score, int *level) : player(player), score(score), level(level), font8(nullptr)
+HUD::HUD(const Player *player, int *score, int *level, int *nextLevelScore) : player(player), score(score), level(level), nextLevelScore(nextLevelScore), font8(nullptr)
 {
     font8 = TTF_OpenFont("./assets/fonts/font.ttf", 8);
     if (!font8) {
@@ -38,7 +38,7 @@ void HUD::Draw(SDL_Renderer *rend)
 
     // score text
     RenderText(rend, rectHealth.x + 4, rectHealth.y - 10, font8, {255, 255, 255, 255},
-               std::string("Score: " + std::to_string(*score)).c_str());
+               std::string("Score: " + std::to_string(*score) + '/' + std::to_string(*nextLevelScore)).c_str());
 
     // level text
     RenderText(rend, rectHealth.x + 4, rectHealth.y - 20, font8, {255, 255, 255, 255},

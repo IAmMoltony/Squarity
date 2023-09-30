@@ -94,7 +94,7 @@ static int _Init(void)
     _player = new Player(400 - Player::WIDTH / 2, 300 - Player::HEIGHT / 2, 255, 255, 255);
 
     // heads up display
-    _hud = new HUD(_player, &_score, &_level);
+    _hud = new HUD(_player, &_score, &_level, &_nextLevelScore);
 
     // bg color
     _bgColor = {0, 0, 0, 255};
