@@ -3,6 +3,7 @@
 #include "BasicEnemy.h"
 #include "FastEnemy.h"
 #include "SmartEnemy.h"
+#include "SlowEnemy.h"
 
 Enemy::Type Enemy::RandomType(void)
 {
@@ -18,6 +19,8 @@ Enemy::Pointer Enemy::CreateEnemyFromType(int x, int y, Enemy::Type type)
             return new FastEnemy(x, y);
         case Type::Smart:
             return new SmartEnemy(x, y);
+        case Type::Slow:
+            return new SlowEnemy(x, y);
         default:
             return nullptr;
     }

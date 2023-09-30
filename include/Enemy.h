@@ -14,6 +14,7 @@ public:
         Basic,
         Fast,
         Smart,
+        Slow,
         _Last,
     };
 
