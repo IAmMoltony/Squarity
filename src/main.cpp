@@ -180,7 +180,7 @@ static void _PollEvents(bool &running)
 
 static void _NextLevel(void)
 {
-    _nextLevelScore *= 2;
+    _nextLevelScore += 1500;
     _level++;
 
     // spawn enemies
