@@ -12,6 +12,10 @@
 #include <ctime>
 #include <unistd.h>
 
+#ifdef WIN32
+#include <Windows.h>
+#endif // WIN32
+
 static SDL_Window *_window = nullptr;
 static SDL_Renderer *_rend = nullptr;
 
@@ -291,3 +295,15 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+#ifdef WIN32
+int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, int cmdShow)
+{
+    (void)instance;
+    (void)prevInstance;
+    (void)cmdLine;
+    (void)cmdShow;
+    main(__argc, __argv);
+    return 0;
+}
+#endif // WIN32
